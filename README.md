@@ -4,18 +4,26 @@ This repository contains the authentication service for the Rika project. It uti
 
 ## Run the project
 
+### Submodules
+
+First of all you have initialize the submodules (eg. proto):
+
+```shell
+git submodule update --init --recursive
+```
+
 ### Database
 
 To begin, you will need a functional PostgreSQL database. If you do not have one, you can run it within a container:
 
 ```shell
 docker run --rm \
-			-v local_pgdata:/var/lib/postgresql/data \
-			-p 5432:5432 \
-			-d \
 			--name rika-auth-db \
 			-e POSTGRES_USER=postgres \
 			-e POSTGRES_PASSWORD=123 \
+			-v local_pgdata:/var/lib/postgresql/data \
+			-p 5432:5432 \
+			-d \
 			postgres
 ```
 
@@ -55,13 +63,24 @@ After setting the environment variables and having a functional PostgreSQL datab
 make proto
 ```
 
-> Please make sure that you have initialized the submodules before running this command.
+> Please make sure that you have initialized the submodules and installed dependencies with `yarn install` before running this command.
+
+### Init Prisma
+
+Now you have to init Prisma client and sync your database with the schema:
+
+```shell
+npx prisma generate
+npx prisma db push
+```
 
 Then you can run the auth service by typing:
 
 ```shell
 yarn start:dev
 ```
+
+Authentication service will be at port `5000`. You can change the port by setting the `PORT` environment variable.
 
 ## Build container image
 
@@ -71,4 +90,4 @@ If you want to run auth service in a docker container, you can do it. To create 
 make image
 ```
 
-This command will create a docker image named `rika-auth-<version>`. The version specified in the `package.json` file will be `<version>`.
+This command will create a docker image named `rika-auth-<version>`. `<version>` will replace with the version specified in the `package.json`.
