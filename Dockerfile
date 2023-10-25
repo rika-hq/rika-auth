@@ -5,7 +5,8 @@ WORKDIR /runtime
 COPY package*.json ./
 RUN yarn install
 COPY . .
+RUN npx prisma generate
 RUN yarn build
 CMD ["yarn", "start:prod"]
 
-EXPOSE 7337
+EXPOSE 5000
