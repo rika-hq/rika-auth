@@ -37,6 +37,7 @@ export class AuthController implements AuthServiceController {
 				email: user.email,
 				fullName: `${user.name} ${user.surname}`,
 				profilePhoto: user.profilePhoto,
+				id: user.id.toString(),
 			};
 		} catch (err) {}
 
@@ -64,6 +65,7 @@ export class AuthController implements AuthServiceController {
 						email: user.email,
 						fullName: `${user.name} ${user.surname}`,
 						profilePhoto: user.profilePhoto,
+						id: user.id.toString(),
 					},
 				};
 			}
